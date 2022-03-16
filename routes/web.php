@@ -46,6 +46,7 @@ Route::view('/', 'home.index')->name('home.index');
 Route::view('/contact', 'home.contact')->name('home.contact');
 
 Route::get('/posts', function() use ($posts) {
+    dd((int)request()->query('page', 1));
     return view('posts.index', ['posts' => $posts]);
 })->name('posts.index');
 
