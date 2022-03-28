@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,8 +43,8 @@ $posts = [
     ]
 ];
 
-Route::view('/', 'home.index')->name('home.index');
-Route::view('/contact', 'home.contact')->name('home.contact');
+Route::get('/', [HomeController::class, 'home'])->name('home.index');
+Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
 
 Route::get('/posts', function() use ($posts) {
     dd(request()->except(['page']));
