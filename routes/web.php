@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,11 +50,6 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact')
 
 Route::get('/singleController', AboutController::class);
 
-Route::get('/posts', function() use ($posts) {
-    dd(request()->except(['page']));
-    return view('posts.index', ['posts' => $posts]);
-})->name('posts.index');
-
 Route::prefix('/fun')->name('fun.')->group(function() use ($posts) {
     Route::get('/responses', function() use ($posts) {
         return response($posts, 201)
@@ -88,7 +84,13 @@ Route::prefix('/fun')->name('fun.')->group(function() use ($posts) {
     })->name('download');
 });
 
+Route::resource('/posts', PostsController::class)->only(['index', 'show']);
 
+/*
+Route::get('/posts', function() use ($posts) {
+    dd(request()->except(['page']));
+    return view('posts.index', ['posts' => $posts]);
+})->name('posts.index');
 
 Route::get('/posts/{id}', function($id) use($posts) {
     abort_if(!isset($posts[$id]), 404);
@@ -101,6 +103,7 @@ Route::get('/posts/{id}', function($id) use($posts) {
 //     'id'    =>  '[0-9]+'
 // ])
 ->name('posts.show');
+*/
 
 Route::get('/recent-posts/{days_ago?}', function($daysAgo = 20) {
     return 'Posts from '.$daysAgo.' days ago';
