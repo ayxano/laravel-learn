@@ -50,6 +50,27 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact')
 
 Route::get('/singleController', AboutController::class);
 
+Route::resource('/posts', PostsController::class)->only(['index', 'show', 'create', 'store']);
+
+/*
+Route::get('/posts', function() use ($posts) {
+    dd(request()->except(['page']));
+    return view('posts.index', ['posts' => $posts]);
+})->name('posts.index');
+
+Route::get('/posts/{id}', function($id) use($posts) {
+    abort_if(!isset($posts[$id]), 404);
+    return view('posts.show', [
+        'post' => $posts[$id]
+    ]);
+})
+// Disabled check. Added to RouteServiceProvider.php
+// ->where([
+//     'id'    =>  '[0-9]+'
+// ])
+->name('posts.show');
+*/
+
 Route::prefix('/fun')->name('fun.')->group(function() use ($posts) {
     Route::get('/responses', function() use ($posts) {
         return response($posts, 201)
@@ -83,27 +104,6 @@ Route::prefix('/fun')->name('fun.')->group(function() use ($posts) {
         return response()->download(public_path('/dua lipa.jpg'), 'DuaLipa.jpg');
     })->name('download');
 });
-
-Route::resource('/posts', PostsController::class)->only(['index', 'show']);
-
-/*
-Route::get('/posts', function() use ($posts) {
-    dd(request()->except(['page']));
-    return view('posts.index', ['posts' => $posts]);
-})->name('posts.index');
-
-Route::get('/posts/{id}', function($id) use($posts) {
-    abort_if(!isset($posts[$id]), 404);
-    return view('posts.show', [
-        'post' => $posts[$id]
-    ]);
-})
-// Disabled check. Added to RouteServiceProvider.php
-// ->where([
-//     'id'    =>  '[0-9]+'
-// ])
-->name('posts.show');
-*/
 
 Route::get('/recent-posts/{days_ago?}', function($daysAgo = 20) {
     return 'Posts from '.$daysAgo.' days ago';
