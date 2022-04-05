@@ -2,30 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePost;
+use App\Models\BlogPost;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
-
-    private $posts = [
-        1 => [
-            'title' => 'Intro to Laravel',
-            'content' => 'This is a short intro to Laravel',
-            'is_new' => true,
-            'has_comments' => true,
-        ],
-        2 => [
-            'title' => 'Intro to PHP',
-            'content' => 'This is a short intro to PHP',
-            'is_new' => false,
-        ],
-        3 => [
-            'title' => 'Intro to Python',
-            'content' => 'This is a short intro to Python',
-            'is_new' => false,
-        ],
-    ];
-
     /**
      * Display a listing of the resource.
      *
@@ -33,7 +15,8 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view('posts.index', ['posts' => $this->posts]);
+       return view('posts.index', ['posts' => BlogPost::all()]);
+        // return view('posts.index', ['posts' => BlogPost::orderBy('created_at', 'desc')->take(1)->get()]);
     }
 
     /**
@@ -43,7 +26,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -52,9 +35,17 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePost $request)
     {
-        //
+        $validated  =   $request->validated();
+        $post = new BlogPost();
+        $post->title    = $validated['title'];
+        $post->content  = $validated['content'];
+        $post->save();
+
+        $request->session()->flash('status', 'Created on DB!');
+
+        return redirect()->route('posts.show', ['post' => $post->id ]);
     }
 
     /**
@@ -65,9 +56,9 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        abort_if(!isset($this->posts[$id]), 404);
+        // abort_if(!isset($this->posts[$id]), 404);
         return view('posts.show', [
-            'post' => $this->posts[$id],
+            'post' => BlogPost::findOrFail($id),
         ]);
     }
 
