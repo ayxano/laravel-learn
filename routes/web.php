@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Aykhan;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\SingleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +49,12 @@ $posts = [
 
 Route::get('/', [HomeController::class, 'home'])->name('home.index');
 Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
+
+Route::prefix('/aykhan')->name('aykhan.')->group(function() {
+    Route::get('/request_one', [Aykhan::class, 'one'])->name('one');
+    Route::get('/request_two', [Aykhan::class, 'two'])->name('two');
+    Route::get('/single', SingleController::class)->name('single');
+});
 
 Route::get('/singleController', AboutController::class);
 
