@@ -18,16 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
-// Route::get('/', function () {
-//     return view('home.index');
-// })->name('home.index');
-
-// Route::get('/contact', function () {
-//     return view('home.contact');
-// })->name('home.contact');
-
 $posts = [
     1 => [
         'title' => 'Intro to Laravel',
@@ -113,6 +103,7 @@ Route::prefix('/fun')->name('fun.')->group(function() use ($posts) {
     })->name('download');
 });
 
+// Optinal route parameter
 Route::get('/recent-posts/{days_ago?}', function($daysAgo = 20) {
     return 'Posts from '.$daysAgo.' days ago';
 })->name('posts.recent.index');
