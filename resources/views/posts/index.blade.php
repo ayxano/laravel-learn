@@ -3,7 +3,7 @@
 @section('title', 'Blog Posts')
 
 @section('content')
-
+    {{-- forelse is used for to check if variable is not empty. if it is empty, then @empty section will be executed. If not, @forelse section will be executed. it makes you to not write if condition before foreach --}}
     @forelse ($posts as $key => $post)
         @include('posts.partials.post')
     @empty
