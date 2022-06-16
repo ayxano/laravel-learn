@@ -4,21 +4,9 @@
 
 @section('content')
 <form action="{{ route('posts.store') }}" method="post">
+    {{-- below adding csrf verification for security reasons --}}
     @csrf
-    <div><input type="text" name="title" value="{{ old('title') }}" /></div>
-    @error('title')
-        <div>{{ $message }}</div>
-    @enderror
-    <div><textarea name="content">{{ old('content') }}</textarea></div>
-    @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    <div><input type="submit"/></div>
+    @include('posts.partials.form')
+    <div><input type="submit" value="Create Post!"/></div>
 </form>
 @endsection

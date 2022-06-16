@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class BlogPost extends Model
 {
-    protected $fillable =   [''];
+    protected $fillable =   ['title', 'content'];
     use HasFactory;
 }

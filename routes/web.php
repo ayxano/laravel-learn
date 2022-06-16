@@ -49,7 +49,8 @@ Route::prefix('/aykhan')->name('aykhan.')->group(function() {
 
 Route::get('/singleController', AboutController::class);
 
-Route::resource('/posts', PostsController::class)->only(['index', 'show', 'create', 'store']);
+Route::resource('/posts', PostsController::class);
+// ->only(['index', 'show', 'create', 'store', 'edit', 'update']);
 
 /*
 Route::get('/posts', function() use ($posts) {

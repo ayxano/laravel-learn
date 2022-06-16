@@ -16,7 +16,7 @@ class PostsController extends Controller
     public function index()
     {
        return view('posts.index', ['posts' => BlogPost::all()]);
-        // return view('posts.index', ['posts' => BlogPost::orderBy('created_at', 'desc')->take(1)->get()]);
+    //    return view('posts.index', ['posts' => BlogPost::orderBy('created_at', 'desc')->take(2)->get()]);
     }
 
     /**
@@ -38,10 +38,13 @@ class PostsController extends Controller
     public function store(StorePost $request)
     {
         $validated  =   $request->validated();
+        $post       =   BlogPost::create($validated);
+        /* Commented this block to make code more
         $post = new BlogPost();
         $post->title    = $validated['title'];
         $post->content  = $validated['content'];
         $post->save();
+        */
 
         $request->session()->flash('status', 'Created on DB!');
 
@@ -70,7 +73,7 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('posts.edit', ['post' => BlogPost::findOrFail($id)]);
     }
 
     /**
@@ -80,9 +83,15 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StorePost $request, $id)
     {
-        //
+        $post = BlogPost::findOrFail($id);
+        $validated = $request->validated();
+        $post->fill($validated);
+        $post->save();
+
+        $request->session()->flash('status', 'Blog post was updated!');
+        return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
     /**
@@ -91,8 +100,11 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        //
+        $post = BlogPost::findOrFail($id);
+        $post->delete();
+        $request->session()->flash('status', 'Deleted from DB!');
+        return redirect()->route('posts.index');
     }
 }
