@@ -7,6 +7,8 @@
     {{-- below adding csrf verification for security reasons --}}
     @csrf
     @include('posts.partials.form')
-    <div><input type="submit" value="Create Post!"/></div>
+    <div>
+        <input type="submit" value="Create Post!" class="btn btn-success btn-block"/>
+    </div>
 </form>
 @endsection
