@@ -47,10 +47,12 @@ class PostTest extends TestCase
             'content' => 'At least 10 characters',
             '_token' => csrf_token()
         ];
-        $this->post('/posts', $params) // sending data to this endpoint
+        $response = $this->post('/posts', $params) // sending data to this endpoint
         ->assertStatus(302) // waiting response status code for 302
         ->assertSessionHas('status'); // also check session has 'status' key
 
         $this->assertEquals(session('status'), 'Created on DB!'); // check 'status' key on session is equal to 'Created on DB!'
+
+        $this->followRedirects($response)->assertSeeText('Created on DB!'); // make follow redirect, then check response
     }
 }
