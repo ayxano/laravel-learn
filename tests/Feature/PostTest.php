@@ -22,7 +22,7 @@ class PostTest extends TestCase
         // Arrange
         $post = new BlogPost();
         $post->title = 'New phpunit blog post';
-        $post->content = 'Content of the blog post';;
+        $post->content = 'Content of the blog post';
         $post->save();
 
         // Act
