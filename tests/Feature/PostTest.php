@@ -53,6 +53,6 @@ class PostTest extends TestCase
 
         $this->assertEquals(session('status'), 'Created on DB!'); // check 'status' key on session is equal to 'Created on DB!'
 
-        $this->followRedirects($response)->assertSeeText('Created on DB!'); // make follow redirect, then check response
+        $this->followRedirects($response)->assertSeeText('Created on DB!')->assertOk(); // make follow redirect, then check response and status code 200
     }
 }
