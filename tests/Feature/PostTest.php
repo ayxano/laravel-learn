@@ -31,7 +31,7 @@ class PostTest extends TestCase
         // Assert
         $response->assertSeeText('New phpunit blog post');
 
-        // Check table have value
+        // Check table have record
         $this->assertDatabaseHas('blog_posts', [
             'title' => 'New phpunit blog post'
         ]);
