@@ -18,7 +18,8 @@ class PostTest extends TestCase
         $response->assertSeeText('No posts');
     }
 
-    public function testSee1BlogPostWhenThereis1() :void {
+    public function testSee1BlogPostWhenThereis1() :void 
+    {
         // Arrange
         $post = new BlogPost();
         $post->title = 'New phpunit blog post';
