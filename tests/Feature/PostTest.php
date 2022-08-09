@@ -60,4 +60,14 @@ class PostTest extends TestCase
             'title' => 'Valid title'
         ]);
     }
+
+    public function testStoreFailForCSRFIsNotPresent() :void { // check request is not acceptable without CSRF token
+        $params = [
+            'title' => 'Valid title',
+            'content' => 'At least 10 characters',
+        ];
+        $response = $this->post('/posts', $params) // sending data to this endpoint
+        ->assertStatus(419) // waiting response status code for 419
+        ;
+    }
 }
