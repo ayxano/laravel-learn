@@ -116,5 +116,7 @@ class PostTest extends TestCase
         $this->assertDatabaseHas('blog_posts', [ // also check data on DB
             'title' => 'A new named title'
         ]);
+
+        $this->assertDatabaseMissing('blog_posts', $post->toArray());
     }
 }
