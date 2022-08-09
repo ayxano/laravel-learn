@@ -21,10 +21,7 @@ class PostTest extends TestCase
     public function testSee1BlogPostWhenThereis1() :void 
     {
         // Arrange
-        $post = new BlogPost();
-        $post->title = 'New phpunit blog post';
-        $post->content = 'Content of the blog post';
-        $post->save();
+        $post = $this->createDummyBlogPost();
 
         // Act
         $response = $this->get('/posts');
@@ -90,10 +87,7 @@ class PostTest extends TestCase
 
     public function testUpdateValid() :void {
         // Arrange
-        $post = new BlogPost();
-        $post->title = 'New phpunit blog post';
-        $post->content = 'Content of the blog post';
-        $post->save();
+        $post = $this->createDummyBlogPost();
 
         // Check table have record
         $this->assertDatabaseHas('blog_posts', $post->toArray()); // convert DB record to array
@@ -117,6 +111,12 @@ class PostTest extends TestCase
             'title' => 'A new named title'
         ]);
 
-        $this->assertDatabaseMissing('blog_posts', $post->toArray());
+
+    private function createDummyBlogPost(): BlogPost {
+        $post = new BlogPost();
+        $post->title = 'New phpunit blog post';
+        $post->content = 'Content of the blog post';
+        $post->save();
+        return $post;
     }
 }
