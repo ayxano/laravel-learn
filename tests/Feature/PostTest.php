@@ -114,6 +114,35 @@ class PostTest extends TestCase
         $this->assertDatabaseMissing('blog_posts', $post->toArray()); // also check old data is not found on DB
     }
 
+    public function testDeleteValidUnit() :void {
+        // Arrange
+        $post = $this->createDummyBlogPost();
+
+        // Check table have record
+        $this->assertDatabaseHas('blog_posts', $post->toArray()); // convert DB record to array and ensure it exists on DB
+        $post->delete();
+        $this->assertDatabaseMissing('blog_posts', $post->toArray()); // also check record is not found on DB
+    }
+
+    public function testDeleteValidFeature() :void {
+        // Arrange
+        $post = $this->createDummyBlogPost();
+
+        // Check table have record
+        $this->assertDatabaseHas('blog_posts', $post->toArray()); // convert DB record to array and ensure it exists on DB
+
+        //delete db record with http simulation
+        Session::start();
+        $params = [
+            '_token' => csrf_token()
+        ];
+        $response = $this->delete("/posts/{$post->id}", $params) // sending data to this endpoint
+        ->assertStatus(302) // waiting response status code for 302
+        ->assertSessionHas('status'); // also check session has 'status' key
+        
+        $this->assertDatabaseMissing('blog_posts', $post->toArray()); // also check record is not found on DB
+    }
+
     private function createDummyBlogPost(): BlogPost {
         $post = new BlogPost();
         $post->title = 'New phpunit blog post';
