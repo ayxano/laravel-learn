@@ -87,4 +87,34 @@ class PostTest extends TestCase
         $this->assertEquals($messages['title'][0], 'The title must be at least 5 characters.');
         $this->assertEquals($messages['content'][0], 'The content must be at least 10 characters.');
     }
+
+    public function testUpdateValid() :void {
+        // Arrange
+        $post = new BlogPost();
+        $post->title = 'New phpunit blog post';
+        $post->content = 'Content of the blog post';
+        $post->save();
+
+        // Check table have record
+        $this->assertDatabaseHas('blog_posts', $post->toArray()); // convert DB record to array
+
+        Session::start();
+        $params = [
+            'title' => 'A new named title',
+            'content' => 'Content changed by test',
+            '_token' => csrf_token()
+        ];
+
+        $response = $this->put("/posts/{$post->id}", $params) // sending data to this endpoint
+        ->assertStatus(302) // waiting response status code for 302
+        ->assertSessionHas('status'); // also check session has 'status' key
+
+        $this->assertEquals(session('status'), 'Blog post was updated!'); // check 'status' key on session is equal to 'Blog post was updated!'
+
+        $this->followRedirects($response)->assertSeeText('Blog post was updated!')->assertOk(); // make follow redirect, then check response and status code 200
+
+        $this->assertDatabaseHas('blog_posts', [ // also check data on DB
+            'title' => 'A new named title'
+        ]);
+    }
 }
