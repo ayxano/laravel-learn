@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class PostTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase; // it will run migrations for each test ( I mean function )
 
     public function testNoBlogPosts() :void
     {
@@ -32,7 +32,7 @@ class PostTest extends TestCase
         // Assert
         $response->assertSeeText($post->title);
 
-        // Check table have record
+        // Check table have record (Assert 2)
         $this->assertDatabaseHas('blog_posts', [
             'title' => $post->title
         ]);
@@ -55,5 +55,9 @@ class PostTest extends TestCase
         $this->assertEquals(session('status'), 'Created on DB!'); // check 'status' key on session is equal to 'Created on DB!'
 
         $this->followRedirects($response)->assertSeeText('Created on DB!')->assertOk(); // make follow redirect, then check response and status code 200
+
+        $this->assertDatabaseHas('blog_posts', [ // also check data on DB
+            'title' => 'Valid title'
+        ]);
     }
 }
