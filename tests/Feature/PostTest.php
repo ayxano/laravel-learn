@@ -30,11 +30,11 @@ class PostTest extends TestCase
         $response = $this->get('/posts');
 
         // Assert
-        $response->assertSeeText('New phpunit blog post');
+        $response->assertSeeText($post->title);
 
         // Check table have record
         $this->assertDatabaseHas('blog_posts', [
-            'title' => 'New phpunit blog post'
+            'title' => $post->title
         ]);
     }
 
