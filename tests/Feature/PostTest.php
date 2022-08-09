@@ -70,4 +70,21 @@ class PostTest extends TestCase
         ->assertStatus(419) // waiting response status code for 419
         ;
     }
+
+    public function testStoreFailForFormValidation() :void {
+        // Starting session for CSRF token
+        Session::start();
+        $params = [
+            'title' => 'x',
+            'content' => 'x',
+            '_token' => csrf_token()
+        ];
+        $response = $this->post('/posts', $params) // sending data to this endpoint
+        ->assertStatus(302) // waiting response status code for 302
+        ->assertSessionHas('errors'); // also check session has 'errors' key
+
+        $messages = session('errors')->getMessages(); // get error messages from session
+        $this->assertEquals($messages['title'][0], 'The title must be at least 5 characters.');
+        $this->assertEquals($messages['content'][0], 'The content must be at least 10 characters.');
+    }
 }
