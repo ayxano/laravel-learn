@@ -107,10 +107,12 @@ class PostTest extends TestCase
 
         $this->followRedirects($response)->assertSeeText('Blog post was updated!')->assertOk(); // make follow redirect, then check response and status code 200
 
-        $this->assertDatabaseHas('blog_posts', [ // also check data on DB
+        $this->assertDatabaseHas('blog_posts', [ // also check new data on DB
             'title' => 'A new named title'
         ]);
 
+        $this->assertDatabaseMissing('blog_posts', $post->toArray()); // also check old data is not found on DB
+    }
 
     private function createDummyBlogPost(): BlogPost {
         $post = new BlogPost();
