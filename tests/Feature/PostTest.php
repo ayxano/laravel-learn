@@ -114,7 +114,7 @@ class PostTest extends TestCase
         $this->assertDatabaseMissing('blog_posts', $post->toArray()); // also check old data is not found on DB
     }
 
-    public function testDeleteValidUnit() :void {
+    public function testDeleteValidUnit() :void { // unit test budu
         // Arrange
         $post = $this->createDummyBlogPost();
 
@@ -124,7 +124,7 @@ class PostTest extends TestCase
         $this->assertDatabaseMissing('blog_posts', $post->toArray()); // also check record is not found on DB
     }
 
-    public function testDeleteValidFeature() :void {
+    public function testDeleteValidFeature() :void { // funksional test budu
         // Arrange
         $post = $this->createDummyBlogPost();
 
