@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Aykhan;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\RedisController;
 use App\Http\Controllers\SingleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,13 @@ Route::prefix('/aykhan')->name('aykhan.')->group(function() {
     Route::get('/request_one', [Aykhan::class, 'one'])->name('one');
     Route::get('/request_two', [Aykhan::class, 'two'])->name('two');
     Route::get('/single', SingleController::class)->name('single');
+});
+
+Route::prefix('/redis')->name('redis.')->group(function() {
+    Route::get('/getKey', [RedisController::class, 'get'])->name('get');
+    Route::get('/setKey', [RedisController::class, 'set'])->name('set');
+    Route::get('/transaction', [RedisController::class, 'transaction'])->name('transaction');
+    Route::get('/pipeline', [RedisController::class, 'pipeline'])->name('pipeline');
 });
 
 Route::get('/singleController', AboutController::class);
