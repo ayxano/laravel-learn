@@ -53,6 +53,7 @@ Route::prefix('/redis')->name('redis.')->group(function() {
     Route::get('/setKey', [RedisController::class, 'set'])->name('set');
     Route::get('/transaction', [RedisController::class, 'transaction'])->name('transaction');
     Route::get('/pipeline', [RedisController::class, 'pipeline'])->name('pipeline');
+    Route::get('/publish', [RedisController::class, 'publish'])->name('publish');
 });
 
 Route::get('/singleController', AboutController::class);

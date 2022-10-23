@@ -30,4 +30,11 @@ class RedisController extends Controller
             }
         });
     }
+
+    public function publish() :void { // Sender. For example: This is radio broadcaster
+        Redis::publish('test-channel', json_encode([
+            'name' => 'Adam Wathan',
+            'time' => time()
+        ]));
+    }
 }
