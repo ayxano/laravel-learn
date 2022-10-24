@@ -32,7 +32,9 @@ class PostAdded extends Mailable
     public function build()
     {
         $subject = "Post was added to DB. ID of the post is {$this->post->id}";
-        return $this->subject($subject)
+        return $this
+        ->attach(public_path(DIRECTORY_SEPARATOR . 'dua lipa.jpg'))
+        ->subject($subject)
         ->view('emails.posts.added');
     }
 }
