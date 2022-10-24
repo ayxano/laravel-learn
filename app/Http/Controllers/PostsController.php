@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePost;
+use App\Mail\PostAdded;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class PostsController extends Controller
 {
@@ -45,6 +47,10 @@ class PostsController extends Controller
         $post->content  = $validated['content'];
         $post->save();
         */
+
+        Mail::to('ayxano@gmail.com')->send(
+            new PostAdded($post)
+        );
 
         $request->session()->flash('status', 'Created on DB!');
 
