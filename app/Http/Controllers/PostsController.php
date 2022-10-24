@@ -48,7 +48,9 @@ class PostsController extends Controller
         $post->save();
         */
 
-        Mail::to('ayxano@gmail.com')->send(
+        // Removed ShouldQueue implemention from PostAdded mail, 
+        // let's decide if this should be queue or not from controller
+        Mail::to('ayxano@gmail.com')->queue(
             new PostAdded($post)
         );
 
