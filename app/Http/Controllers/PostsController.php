@@ -48,9 +48,12 @@ class PostsController extends Controller
         $post->save();
         */
 
+        $when = now()->addMinutes(1);
+
         // Removed ShouldQueue implemention from PostAdded mail, 
         // let's decide if this should be queue or not from controller
-        Mail::to('ayxano@gmail.com')->queue(
+        Mail::to('ayxano@gmail.com')->later(
+            $when,
             new PostAdded($post)
         );
 
