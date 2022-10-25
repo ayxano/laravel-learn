@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePost;
+use App\Jobs\NotifyMailPostAdded;
 use App\Mail\PostAdded;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
@@ -52,10 +53,11 @@ class PostsController extends Controller
 
         // Removed ShouldQueue implemention from PostAdded mail, 
         // let's decide if this should be queue or not from controller
-        Mail::to('ayxano@gmail.com')->later(
-            $when,
+        Mail::to('ayxano@gmail.com')->queue(
             new PostAdded($post)
         );
+
+        NotifyMailPostAdded::dispatch($post);
 
         $request->session()->flash('status', 'Created on DB!');
 
