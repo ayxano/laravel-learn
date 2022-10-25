@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePost;
 use App\Jobs\NotifyMailPostAdded;
+use App\Jobs\ThrottledMail;
 use App\Mail\PostAdded;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
@@ -53,11 +54,15 @@ class PostsController extends Controller
 
         // Removed ShouldQueue implemention from PostAdded mail, 
         // let's decide if this should be queue or not from controller
-        Mail::to('ayxano@gmail.com')->queue(
-            new PostAdded($post)
-        );
+        // Mail::to('ayxano@gmail.com')->queue(
+        //     new PostAdded($post)
+        // );
 
-        NotifyMailPostAdded::dispatch($post);
+        ThrottledMail::dispatch(new PostAdded($post), $post); // custom rate limited job
+
+        NotifyMailPostAdded::dispatch($post); // custom job
+
+
 
         $request->session()->flash('status', 'Created on DB!');
 
