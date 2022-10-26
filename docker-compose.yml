@@ -48,6 +48,12 @@ services:
     restart: unless-stopped
     networks:
       - laravel
+  rabbitmq:
+    image: rabbitmq:alpine
+    container_name: laravel-rabbitmq
+    restart: unless-stopped
+    networks:
+      - laravel
 
 networks:
   laravel:
