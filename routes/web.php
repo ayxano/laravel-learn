@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Aykhan;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\RabbitController;
 use App\Http\Controllers\RedisController;
 use App\Http\Controllers\SingleController;
 use Illuminate\Http\Request;
@@ -54,6 +55,10 @@ Route::prefix('/redis')->name('redis.')->group(function() {
     Route::get('/transaction', [RedisController::class, 'transaction'])->name('transaction');
     Route::get('/pipeline', [RedisController::class, 'pipeline'])->name('pipeline');
     Route::get('/publish', [RedisController::class, 'publish'])->name('publish');
+});
+
+Route::prefix('/rabbitmq')->name('rabbit.')->group(function() {
+    Route::get('/send', [RabbitController::class, 'sendEvent'])->name('sendEvent');
 });
 
 Route::get('/singleController', AboutController::class);
