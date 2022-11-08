@@ -29,6 +29,8 @@ services:
     volumes:
       - ./docker-compose/mysql:/docker-entrypoint-initdb.d
       - ./docker-compose/mysql/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
     networks:
       - laravel
   nginx:
