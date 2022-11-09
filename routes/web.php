@@ -7,6 +7,7 @@ use App\Http\Controllers\PostsController;
 use App\Http\Controllers\RedisController;
 use App\Http\Controllers\SingleController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -123,3 +124,6 @@ Route::prefix('/fun')->name('fun.')->group(function() use ($posts) {
 Route::get('/recent-posts/{days_ago?}', function($daysAgo = 20) {
     return 'Posts from '.$daysAgo.' days ago';
 })->name('posts.recent.index');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
