@@ -9,6 +9,7 @@ use App\Mail\PostAdded;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+Use App\Http\Resources\Post as PostResource;
 
 class PostsController extends Controller
 {
@@ -19,7 +20,8 @@ class PostsController extends Controller
      */
     public function index()
     {
-       return view('posts.index', ['posts' => BlogPost::all()]);
+          return PostResource::collection(BlogPost::all());
+    //    return view('posts.index', ['posts' => BlogPost::all()]);
     //    return view('posts.index', ['posts' => BlogPost::orderBy('created_at', 'desc')->take(2)->get()]);
     }
 
