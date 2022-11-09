@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class BlogPost extends Model
 {
     protected $fillable =   ['title', 'content'];
+    protected $hidden   =   ['updated_at'];
     use HasFactory;
 }
