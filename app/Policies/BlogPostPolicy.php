@@ -51,7 +51,7 @@ class BlogPostPolicy
      * @param  \App\Models\BlogPost  $blogPost
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, BlogPost $blogPost)
+    public function update(User $user)
     {
         return true;
     }
@@ -65,6 +65,7 @@ class BlogPostPolicy
      */
     public function delete(User $user, BlogPost $blogPost)
     {
+        dd($user);
         return true;
     }
 
