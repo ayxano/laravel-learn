@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AuthApi\AuthController;
 use App\Http\Controllers\Aykhan;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostsController;
@@ -85,6 +86,12 @@ Route::get('/posts/{id}', function($id) use($posts) {
 // ])
 ->name('posts.show');
 */
+
+Route::prefix('/auth/api/statefull')->name('auth.api.statefull.')->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class)->group(function() {
+    Route::post('/register', [AuthController::class, 'createUser']);
+    Route::post('/login', [AuthController::class, 'loginUser']);
+    Route::get('/check', [AuthController::class, 'checkUser']);
+});
 
 Route::prefix('/fun')->name('fun.')->group(function() use ($posts) {
     Route::get('/responses', function() use ($posts) {
