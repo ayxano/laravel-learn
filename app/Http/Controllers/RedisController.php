@@ -16,6 +16,10 @@ class RedisController extends Controller
         $writeToRedis = Redis::set('name', 'Aykhan');
         var_dump($writeToRedis);
     }
+    public function setExpiredKey() :void {
+        $writeToRedis = Redis::setex('name', 10, 'Aykhan');
+        var_dump($writeToRedis);
+    }
     public function transaction() {
         Redis::transaction(function ($redis) {
             $redis->incr('user_visits', 1);

@@ -53,6 +53,7 @@ Route::prefix('/aykhan')->name('aykhan.')->group(function() {
 Route::prefix('/redis')->name('redis.')->group(function() {
     Route::get('/getKey', [RedisController::class, 'get'])->name('get');
     Route::get('/setKey', [RedisController::class, 'set'])->name('set');
+    Route::get('/setExpiredKey', [RedisController::class, 'setExpiredKey'])->name('setExpiredKey');
     Route::get('/transaction', [RedisController::class, 'transaction'])->name('transaction');
     Route::get('/pipeline', [RedisController::class, 'pipeline'])->name('pipeline');
     Route::get('/publish', [RedisController::class, 'publish'])->name('publish');
