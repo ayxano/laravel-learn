@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Aykhan;
+use App\Http\Controllers\FileUploadExample;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\RabbitController;
 use App\Http\Controllers\RedisController;
 use App\Http\Controllers\SingleController;
+use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +63,10 @@ Route::prefix('/redis')->name('redis.')->group(function() {
 
 Route::prefix('/rabbitmq')->name('rabbit.')->group(function() {
     Route::get('/send', [RabbitController::class, 'sendEvent'])->name('sendEvent');
+});
+
+Route::prefix('/fileUpload')->name('fileupload.')->group(function() {
+    Route::post('/uploadAvatar', [FileUploadExample::class, 'uploadAvatar'])->withoutMiddleware([VerifyCsrfToken::class])->name('avatar');
 });
 
 Route::get('/singleController', AboutController::class);
