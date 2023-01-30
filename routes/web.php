@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Aykhan;
+use App\Http\Controllers\CacheExampleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\RabbitController;
@@ -57,6 +58,13 @@ Route::prefix('/redis')->name('redis.')->group(function() {
     Route::get('/transaction', [RedisController::class, 'transaction'])->name('transaction');
     Route::get('/pipeline', [RedisController::class, 'pipeline'])->name('pipeline');
     Route::get('/publish', [RedisController::class, 'publish'])->name('publish');
+});
+
+Route::prefix('/cache')->name('cache.')->group(function() {
+    Route::get('/get', [CacheExampleController::class, 'get'])->name('get');
+    Route::get('/set', [CacheExampleController::class, 'set'])->name('set');
+    Route::get('/setTags', [CacheExampleController::class, 'setTags'])->name('setTags');
+    Route::get('/getTags', [CacheExampleController::class, 'getTags'])->name('getTags');
 });
 
 Route::prefix('/rabbitmq')->name('rabbit.')->group(function() {
